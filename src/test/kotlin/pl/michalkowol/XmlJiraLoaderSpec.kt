@@ -1,60 +1,13 @@
 package pl.michalkowol
 
-import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonSetter
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.containsSubstring
 import com.natpryce.hamkrest.equalTo
+import com.natpryce.hamkrest.hasSize
 import com.natpryce.hamkrest.isEmpty
 import com.softwareberg.XmlMapper
 import org.junit.Test
 import pl.michalkowol.TestUtils.readFile
-
-data class Story(val key: String, val summary: String, val type: String, val description: String?, val comments: List<String>, val subtasks: List<String>)
-
-interface JiraLoader {
-    fun loadStories(input: String): List<Story>
-
-}
-
-class XmlJiraLoader(private val xmlMapper: XmlMapper) : JiraLoader {
-
-    @JacksonXmlRootElement(localName = "rss")
-    private class Rss {
-        lateinit var channel: Channel
-    }
-
-    private class Channel {
-        @JacksonXmlElementWrapper(useWrapping = false)
-        @JsonProperty("item")
-        var items = mutableListOf<Item>()
-
-        @JsonSetter("item")
-        fun addField(item: Item) {
-            this.items.add(item)
-        }
-    }
-
-    class Item {
-        lateinit var key: String
-        lateinit var summary: String
-        lateinit var type: String
-        var description: String? = null
-        @JsonFormat(with = arrayOf(JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY))
-        var comments = mutableListOf<String>()
-        @JsonFormat(with = arrayOf(JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY))
-        var subtasks = mutableListOf<String>()
-    }
-
-    override fun loadStories(input: String): List<Story> {
-        val channel = xmlMapper.read<Rss>(input)
-        val stories = channel.channel.items.map { item -> Story(item.key, item.summary, item.type, item.description, item.comments.orEmpty().filter(String::isNotBlank), item.subtasks.orEmpty().filter(String::isNotBlank)) }
-        return stories
-    }
-}
 
 class XmlJiraLoaderSpec {
 
@@ -108,10 +61,8 @@ class XmlJiraLoaderSpec {
         val stories = xmlJiraLoader.loadStories(xml)
 
         // then
+        assertThat(stories, hasSize(equalTo(4)))
         val storyA = stories[0]
-        val storyB = stories[1]
-        val storyC = stories[2]
-        val storyD = stories[3]
         assertThat(storyA.key, equalTo("WTAI-1052"))
         assertThat(storyA.summary, equalTo("Provider base configuration for ARC data"))
         assertThat(storyA.type, equalTo("Story"))
