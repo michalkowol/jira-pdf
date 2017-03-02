@@ -1,7 +1,5 @@
 package pl.michalkowol
 
-import com.softwareberg.JsonMapper
-import com.softwareberg.SimpleHttpClient
 import org.slf4j.LoggerFactory
 import spark.Request
 import spark.Response
@@ -11,12 +9,10 @@ import java.io.StringWriter
 import java.net.HttpURLConnection.HTTP_INTERNAL_ERROR
 
 fun main(args: Array<String>) {
-    val httpClient = SimpleHttpClient.create()
-    val jsonMapper = JsonMapper.create()
-    Boot(jsonMapper).start()
+    Boot().start()
 }
 
-class Boot(private val jsonMapper: JsonMapper) {
+class Boot {
 
     private val log = LoggerFactory.getLogger(Boot::class.java)
 
@@ -39,6 +35,6 @@ class Boot(private val jsonMapper: JsonMapper) {
     private fun echo(request: Request, response: Response): String {
         response.type("application/json")
         val id = request.params("id")
-        return jsonMapper.write(mapOf("id" to id))
+        return """{"id": "$id"}"""
     }
 }

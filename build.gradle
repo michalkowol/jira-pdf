@@ -71,13 +71,14 @@ dependencies {
 
     compile "com.github.softwareberg.rinca:database:$rinca"
     compile "com.github.softwareberg.rinca:httpclient:$rinca"
-    compile "com.github.softwareberg.rinca:json:$rinca"
+    compile "com.github.softwareberg.rinca:xml:$rinca"
 
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxcoroutines"
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$kotlinxcoroutines"
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-nio:$kotlinxcoroutines"
 
     testCompile 'junit:junit:4.+'
+    testCompile 'com.natpryce:hamkrest:1.3.+'
     testCompile 'com.nhaarman:mockito-kotlin:1.3.+'
 }
 
