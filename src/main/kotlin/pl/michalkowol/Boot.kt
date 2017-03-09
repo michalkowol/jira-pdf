@@ -1,5 +1,6 @@
 package pl.michalkowol
 
+import com.softwareberg.XmlMapper
 import org.slf4j.LoggerFactory
 import spark.Request
 import spark.Response
@@ -18,8 +19,9 @@ class Boot {
 
     fun start() {
         port(8080)
-
-        get("/echo/:id", this::echo)
+        staticFiles.location("/public")
+        get("pdf", this::pdf)
+        post("pdf", this::pdf)
 
         exception(Exception::class.java, { e, request, response ->
             log.error(request.url(), e)
@@ -32,9 +34,36 @@ class Boot {
         })
     }
 
-    private fun echo(request: Request, response: Response): String {
-        response.type("application/json")
-        val id = request.params("id")
-        return """{"id": "$id"}"""
+    private fun pdf(request: Request, response: Response): ByteArray {
+        response.type("application/pdf")
+        val body = """<rss version="0.92">
+    <channel>
+        <item>
+            <description>As a producer I want...</description>
+            <key>WTAI-1052</key>
+            <summary>Provider base configuration for ARC data</summary>
+            <type>Story</type>
+            <comments>
+                <comment>comment A</comment>
+                <comment>comment B</comment>
+            </comments>
+            <subtasks>
+                <subtask>WTAI-553</subtask>
+                <subtask>WTAI-551</subtask>
+            </subtasks>
+            <customfields>
+                <customfield>
+                    <customfieldname>Story Points</customfieldname>
+                    <customfieldvalues>
+                        <customfieldvalue>1.0</customfieldvalue>
+                    </customfieldvalues>
+                </customfield>
+            </customfields>
+        </item>
+    </channel>
+</rss>"""
+        val stories = XmlJiraLoader(XmlMapper.create()).loadStories(body)
+        val pdf = PdfConverter().convert(stories)
+        return pdf
     }
 }

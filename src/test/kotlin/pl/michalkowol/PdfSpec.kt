@@ -7,13 +7,10 @@ import com.itextpdf.kernel.pdf.PdfPage
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas
 import com.itextpdf.layout.Canvas
-import com.itextpdf.layout.Document
-import com.itextpdf.layout.element.*
-import com.itextpdf.layout.property.UnitValue.createPercentValue
-import com.itextpdf.layout.property.VerticalAlignment
+import com.itextpdf.layout.element.Paragraph
+import com.itextpdf.layout.element.Text
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
-import com.softwareberg.XmlMapper
 import org.junit.Test
 import java.io.File
 
@@ -96,39 +93,11 @@ class ItextSpec {
     fun `it should create pdf with table`() {
         // given
         val path = "pdfs/simple-table.pdf"
+        val pdf = PdfConverter()
         // when
-        val pdf = PdfDocument(PdfWriter(path))
-        val doc = Document(pdf, PageSize(400f, 300f))
-        doc.setMargins(10f, 10f, 10f, 10f)
-        doc.add(table("1", "Title", "Desc", "3"))
-        doc.add(AreaBreak())
-        doc.add(table("2", "Title", "Desc", "1"))
-
-        pdf.close()
-        // then
-        assertThat(File(path).exists(), equalTo(true))
-    }
-
-    @Test
-    fun `it should create pdf from jira`() {
-        // given
-        val xml = TestUtils.readFile("jira/samples/xml/stories.xml")
-        val xmlMapper = XmlMapper.create()
-        val xmlJiraLoader = XmlJiraLoader(xmlMapper)
-        val stories = xmlJiraLoader.loadStories(xml)
-        val path = "pdfs/jira-table.pdf"
+        val bytes = pdf.convert(listOf(Story("1", "Title", "story", "desc", 1, emptyList(), emptyList())))
+        File(path).writeBytes(bytes)
         // when
-        val pdf = PdfDocument(PdfWriter(path))
-        val doc = Document(pdf, PageSize(400f, 300f))
-        doc.setMargins(10f, 10f, 10f, 10f)
-
-        stories.forEach { story ->
-            doc.add(table(story.key, story.summary, story.description.orEmpty().replace("<[^>]*>".toRegex(), ""), story.storyPoints?.toString().orEmpty()))
-            doc.add(AreaBreak())
-        }
-
-        pdf.close()
-        // then
         assertThat(File(path).exists(), equalTo(true))
     }
 }

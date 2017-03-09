@@ -9,7 +9,6 @@ import com.softwareberg.XmlMapper
 
 interface JiraLoader {
     fun loadStories(input: String): List<Story>
-
 }
 
 class XmlJiraLoader(private val xmlMapper: XmlMapper) : JiraLoader {

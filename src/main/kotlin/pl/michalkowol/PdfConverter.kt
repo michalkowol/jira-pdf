@@ -9,7 +9,7 @@ import com.itextpdf.layout.property.UnitValue
 import com.itextpdf.layout.property.VerticalAlignment
 import java.io.ByteArrayOutputStream
 
-class Pdf {
+class PdfConverter {
 
     fun convert(stories: List<Story>): ByteArray {
         return ByteArrayOutputStream().use { outputStream ->
@@ -25,10 +25,15 @@ class Pdf {
 
     private fun addPagePerStory(doc: Document, stories: List<Story>) {
         doc.setMargins(10f, 10f, 10f, 10f)
-        stories.forEach { (key, summary, _, description, storyPoints) ->
+        val tables = stories.map { (key, summary, _, description, storyPoints) ->
             val descriptionWithoutHtmlTags = if (description != null) removeHtmlTags(description) else ""
-            doc.add(table(key, summary, descriptionWithoutHtmlTags, storyPoints?.toString().orEmpty()))
-            doc.add(AreaBreak())
+            table(key, summary, descriptionWithoutHtmlTags, storyPoints?.toString().orEmpty())
+        }
+        tables.withIndex().map { (index, table) ->
+            doc.add(table)
+            if (index < tables.size - 1) {
+                doc.add(AreaBreak())
+            }
         }
     }
 
