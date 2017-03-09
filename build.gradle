@@ -61,6 +61,7 @@ repositories {
 dependencies {
     ext.kotlinxcoroutines = '0.12'
     ext.rinca = '0.6.1'
+    ext.itext = '7.0.2'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
@@ -73,8 +74,18 @@ dependencies {
     compile "com.github.softwareberg.rinca:httpclient:$rinca"
     compile "com.github.softwareberg.rinca:xml:$rinca"
 
-    compile 'com.itextpdf:pdfa:7.0.2'
-    compile 'com.itextpdf:layout:7.0.2'
+    compile "com.itextpdf:sign:$itext"
+    compile "com.itextpdf:root:$itext"
+    compile "com.itextpdf:pdftest:$itext"
+    compile "com.itextpdf:pdfa:$itext"
+    compile "com.itextpdf:layout:$itext"
+    compile "com.itextpdf:kernel:$itext"
+    compile "com.itextpdf:io:$itext"
+    compile "com.itextpdf:hyph:$itext"
+    compile "com.itextpdf:forms:$itext"
+    compile "com.itextpdf:font-asian:$itext"
+    compile "com.itextpdf:barcodes:$itext"
+    compile "com.itextpdf:itext7-core:$itext"
 
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxcoroutines"
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$kotlinxcoroutines"

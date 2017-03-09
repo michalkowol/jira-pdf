@@ -29,6 +29,14 @@ class XmlJiraLoaderSpec {
                 <subtask>WTAI-553</subtask>
                 <subtask>WTAI-551</subtask>
             </subtasks>
+            <customfields>
+                <customfield>
+                    <customfieldname>Story Points</customfieldname>
+                    <customfieldvalues>
+                        <customfieldvalue>1.0</customfieldvalue>
+                    </customfieldvalues>
+                </customfield>
+            </customfields>
         </item>
     </channel>
 </rss>"""
@@ -47,6 +55,7 @@ class XmlJiraLoaderSpec {
         assertThat(story.subtasks[0], equalTo("WTAI-553"))
         assertThat(story.subtasks[1], equalTo("WTAI-551"))
         assertThat(story.description, equalTo("As a producer I want..."))
+        assertThat(story.storyPoints, equalTo(1))
     }
 
     @Test
@@ -69,5 +78,6 @@ class XmlJiraLoaderSpec {
         assertThat(storyA.comments[0], containsSubstring("We should use"))
         assertThat(storyA.subtasks, isEmpty)
         assertThat(storyA.description.orEmpty(), containsSubstring("As a producer I want to have provider bas"))
+        assertThat(storyA.storyPoints, equalTo(5))
     }
 }

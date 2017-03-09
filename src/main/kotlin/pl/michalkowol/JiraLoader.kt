@@ -32,18 +32,39 @@ class XmlJiraLoader(private val xmlMapper: XmlMapper) : JiraLoader {
 
     class Item {
         lateinit var key: String
+
         lateinit var summary: String
+
         lateinit var type: String
+
         var description: String? = null
+
         @JsonFormat(with = arrayOf(JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY))
         var comments = mutableListOf<String>()
+
         @JsonFormat(with = arrayOf(JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY))
         var subtasks = mutableListOf<String>()
+
+        @JacksonXmlElementWrapper(localName = "customfields")
+        @JsonProperty("customfield")
+        var customFields = mutableListOf<CustomField>()
+    }
+
+    class CustomField {
+        @JsonProperty("customfieldname")
+        lateinit var name: String
+
+        @JsonFormat(with = arrayOf(JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY))
+        @JsonProperty("customfieldvalues")
+        var values = mutableListOf<String>()
     }
 
     override fun loadStories(input: String): List<Story> {
         val channel = xmlMapper.read<Rss>(input)
-        val stories = channel.channel.items.map { item -> Story(item.key, item.summary, item.type, item.description, item.comments.orEmpty().filter(String::isNotBlank), item.subtasks.orEmpty().filter(String::isNotBlank)) }
+        val stories = channel.channel.items.map { item ->
+            val storyPoints = item.customFields.find { it.name == "Story Points" }?.values?.first()?.toDoubleOrNull()?.toInt()
+            Story(item.key, item.summary, item.type, item.description, storyPoints, item.comments.orEmpty().filter(String::isNotBlank), item.subtasks.orEmpty().filter(String::isNotBlank))
+        }
         return stories
     }
 }
