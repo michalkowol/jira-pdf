@@ -71,18 +71,17 @@
           $animation.show();
           $btnText.text('Loading...');
           var input = jiraInput.getValue();
+
+
           $.ajax({
             type: 'POST' ,
             url: '/pdf',
             data: input,
-            dataType: 'arraybuffer'
-          }).done(function (data) {
-            saveData(data, 'jira.pdf');
-          }).fail(function (data) {
-            console.error(data);
-          }).always(function () {
-            $animation.hide();
-            $btnText.text('Convert');
+              contentType: "arraybuffer",
+              success: function(d){
+                  var blob = new Blob([d], {type: "image/png"}),
+                      u = URL.createObjectURL(blob);
+              }
           });
         }
 
