@@ -1,5 +1,10 @@
 # JIRA PDF
 
+
+```bash
+project = WTAI and assignee = kowolm and type != Sub-task and status not in (Resolved, Closed)
+```
+
 ## Default
 
 ```bash
