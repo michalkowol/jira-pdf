@@ -18,7 +18,7 @@ class Boot {
     private val log = LoggerFactory.getLogger(Boot::class.java)
 
     fun start() {
-        port(8080)
+        port(System.getProperty("server.port")?.toInt() ?: 8080)
         staticFiles.location("/public")
         get("pdf", this::pdf)
         post("pdf", this::pdf)
