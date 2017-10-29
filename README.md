@@ -55,6 +55,20 @@ gradle jacocoTestReport
 open build/jacocoHtml/index.html
 ```
 
+## Heroku
+
+### Test on local
+
+```bash
+heroku local web
+```
+
+### Deploy
+
+```bash
+git push heroku master
+```
+
 ## References
 
 * http://itextpdf.com/
