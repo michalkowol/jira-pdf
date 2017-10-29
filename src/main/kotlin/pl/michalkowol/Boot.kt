@@ -41,4 +41,5 @@ class Boot {
         val pdf = PdfConverter().convert(stories)
         return pdf
     }
+
 }

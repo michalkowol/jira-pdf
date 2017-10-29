@@ -66,4 +66,5 @@ class XmlJiraLoader(private val xmlMapper: XmlMapper) : JiraLoader {
         }
         return stories
     }
+
 }

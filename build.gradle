@@ -43,7 +43,7 @@ repositories {
 dependencies {
     ext.kotlinxcoroutines = '0.19.3'
     ext.rinca = '0.6.1'
-    ext.itext = '7.0.2'
+    ext.itext = '7.0.4'
 
     compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'ch.qos.logback:logback-classic:1.2.3'

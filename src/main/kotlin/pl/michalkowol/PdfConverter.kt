@@ -42,11 +42,31 @@ class PdfConverter {
     }
 
     private fun table(key: String, title: String, description: String, points: String): Table {
-        val table = Table(arrayOf(UnitValue.createPercentValue(93f), UnitValue.createPercentValue(7f))).setHeight(300f - 20f)
-        val titleCell = Cell().add(Paragraph(Text(key).setBold()).add(" ").add(title)).setVerticalAlignment(VerticalAlignment.MIDDLE).setMinHeight(20f).setMaxHeight(60f)
-        val pointsCell = Cell().add(Paragraph(points)).setVerticalAlignment(VerticalAlignment.MIDDLE).setMinHeight(20f).setMaxHeight(60f)
-        val descriptionCell = Cell(1, 2).add(Paragraph(description).setFontSize(8f)).setHeight(300f - 20f - 60f - 5f)
-        table.addCell(titleCell).addCell(pointsCell).addCell(descriptionCell)
+        val columnWidths = UnitValue.createPercentArray(arrayOf(90f, 10f).toFloatArray())
+        val table = Table(columnWidths)
+            .setHeight(300f - 20f)
+            .setWidth(400f - 20f)
+
+        val titleCell = Cell()
+            .add(Paragraph(Text(key).setBold()).add(" ").add(title))
+            .setVerticalAlignment(VerticalAlignment.MIDDLE)
+            .setMaxHeight(50f)
+
+        val pointsCell = Cell()
+            .add(Paragraph(points))
+            .setVerticalAlignment(VerticalAlignment.MIDDLE)
+            .setMaxHeight(50f)
+
+        val descriptionCell = Cell(1, 2)
+            .add(Paragraph(description).setFontSize(8f))
+            .setHeight(300f - 20f - 60f - 5f)
+
+        table
+            .addCell(titleCell)
+            .addCell(pointsCell)
+            .addCell(descriptionCell)
+
         return table
     }
+
 }
