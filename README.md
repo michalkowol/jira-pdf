@@ -56,5 +56,6 @@ open build/jacocoHtml/index.html
 ```
 
 ## References
+
 * http://itextpdf.com/
 * http://developers.itextpdf.com/examples/itext5-building-blocks/rectangle-examples
