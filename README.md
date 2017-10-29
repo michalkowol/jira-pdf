@@ -2,7 +2,7 @@
 
 
 ```bash
-project = WTAI and assignee = kowolm and type != Sub-task and status not in (Resolved, Closed)
+project = WTAI and assignee = kowolm and type not in (Sub-task, Epic) and status not in (Resolved, Closed)
 ```
 
 ## Default
