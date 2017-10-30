@@ -30,3 +30,5 @@ gradle-app.setting
 tmp.json
 /src/main/generated/
 /generated/
+
+/pdfs/
