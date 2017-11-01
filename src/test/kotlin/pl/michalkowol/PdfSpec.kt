@@ -11,16 +11,21 @@ import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Text
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import java.io.File
 
-
 class ItextSpec {
+
+    @Rule
+    @JvmField
+    val folder = TemporaryFolder()
 
     @Test
     fun `it should create pdf`() {
         // given
-        val path = "pdfs/simple.pdf"
+        val path = "${folder.root.path}/simple.pdf"
         // when
         val pdf = PdfDocument(PdfWriter(path))
         val pageA = pdf.addNewPage(PageSize(400f, 300f))
@@ -33,7 +38,7 @@ class ItextSpec {
     @Test
     fun `it should create with rec pdf`() {
         // given
-        val path = "pdfs/rect.pdf"
+        val path = "${folder.root.path}/rect.pdf"
         // when
         val pdf = PdfDocument(PdfWriter(path))
         val page = pdf.addNewPage()
@@ -56,7 +61,7 @@ class ItextSpec {
     @Test
     fun `it should create pdf with rect`() {
         // given
-        val path = "pdfs/simple-rect.pdf"
+        val path = "${folder.root.path}/simple-rect.pdf"
         // when
         val pdf = PdfDocument(PdfWriter(path))
         val pageA = pdf.addNewPage(PageSize(400f, 300f))
@@ -92,7 +97,7 @@ class ItextSpec {
     @Test
     fun `it should create pdf with table`() {
         // given
-        val path = "pdfs/simple-table.pdf"
+        val path = "${folder.root.path}/simple-table.pdf"
         val pdf = PdfConverter()
         // when
         val bytes = pdf.convert(listOf(Story("1", "Title", "story", "desc", 1, emptyList(), emptyList())))

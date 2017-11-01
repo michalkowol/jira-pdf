@@ -1,5 +1,6 @@
 package pl.michalkowol
 
+import com.softwareberg.SimpleHttpClient
 import com.softwareberg.XmlMapper
 import org.slf4j.LoggerFactory
 import spark.Request
@@ -18,7 +19,7 @@ class Boot {
     private val log = LoggerFactory.getLogger(Boot::class.java)
 
     fun start() {
-        port(System.getProperty("server.port")?.toInt() ?: 8080)
+        port(getPort())
         staticFiles.location("/public")
         get("pdf", this::pdf)
         post("pdf", this::pdf)
@@ -34,12 +35,23 @@ class Boot {
         })
     }
 
+    private fun getPort(): Int = System.getProperty("server.port")?.toInt() ?: 8080
+
     private fun pdf(request: Request, response: Response): ByteArray {
         response.type("application/pdf")
         val body = request.body()
         val stories = XmlJiraLoader(XmlMapper.create()).loadStories(body)
-        val pdf = PdfConverter().convert(stories)
-        return pdf
+        return PdfConverter().convert(stories)
+    }
+
+    private fun pdfFromJira(request: Request, response: Response): ByteArray {
+        response.type("application/pdf")
+        val username = "kowolm"
+        val password = "password"
+        val url = ""
+        val jiraReader = JiraReader(XmlJiraLoader(XmlMapper.create()), SimpleHttpClient.create())
+        val stories = jiraReader.readJiraStories(username, password, url)
+        return PdfConverter().convert(stories)
     }
 
 }
