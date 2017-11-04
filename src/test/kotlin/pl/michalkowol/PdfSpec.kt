@@ -15,7 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import pl.michalkowol.jira.web.Story
-import pl.michalkowol.pdfs.PdfConverter
+import pl.michalkowol.pdfs.itext.ITextPdfConverter
 import java.io.File
 
 class ItextSpec {
@@ -100,11 +100,12 @@ class ItextSpec {
     fun `it should create pdf with table`() {
         // given
         val path = "${folder.root.path}/simple-table.pdf"
-        val pdf = PdfConverter()
+        val pdf = ITextPdfConverter()
         // when
         val bytes = pdf.convert(listOf(Story("1", "Title", "story", "desc", 1, emptyList(), emptyList())))
         File(path).writeBytes(bytes)
         // when
         assertThat(File(path).exists(), equalTo(true))
     }
+
 }

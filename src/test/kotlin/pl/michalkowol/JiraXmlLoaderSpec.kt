@@ -15,32 +15,34 @@ class JiraXmlLoaderSpec {
     @Test
     fun `it should read one minmal story from xml`() {
         // given
-        val xml = """<rss version="0.92">
-    <channel>
-        <item>
-            <description>As a producer I want...</description>
-            <key>WTAI-1052</key>
-            <summary>Provider base configuration for ARC data</summary>
-            <type>Story</type>
-            <comments>
-                <comment>comment A</comment>
-                <comment>comment B</comment>
-            </comments>
-            <subtasks>
-                <subtask>WTAI-553</subtask>
-                <subtask>WTAI-551</subtask>
-            </subtasks>
-            <customfields>
-                <customfield>
-                    <customfieldname>Story Points</customfieldname>
-                    <customfieldvalues>
-                        <customfieldvalue>1.0</customfieldvalue>
-                    </customfieldvalues>
-                </customfield>
-            </customfields>
-        </item>
-    </channel>
-</rss>"""
+        val xml = """
+        <rss version="0.92">
+            <channel>
+                <item>
+                    <description>As a producer I want...</description>
+                    <key>WTAI-1052</key>
+                    <summary>Provider base configuration for ARC data</summary>
+                    <type>Story</type>
+                    <comments>
+                        <comment>comment A</comment>
+                        <comment>comment B</comment>
+                    </comments>
+                    <subtasks>
+                        <subtask>WTAI-553</subtask>
+                        <subtask>WTAI-551</subtask>
+                    </subtasks>
+                    <customfields>
+                        <customfield>
+                            <customfieldname>Story Points</customfieldname>
+                            <customfieldvalues>
+                                <customfieldvalue>1.0</customfieldvalue>
+                            </customfieldvalues>
+                        </customfield>
+                    </customfields>
+                </item>
+            </channel>
+        </rss>
+        """
         val xmlMapper = XmlMapper.create()
         val xmlJiraLoader = JiraXmlLoader(xmlMapper)
 
@@ -81,4 +83,5 @@ class JiraXmlLoaderSpec {
         assertThat(storyA.description.orEmpty(), containsSubstring("As a producer I want to have provider bas"))
         assertThat(storyA.storyPoints, equalTo(5))
     }
+
 }

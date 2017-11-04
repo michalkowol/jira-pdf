@@ -1,11 +1,14 @@
 package pl.michalkowol
 
-import java.io.FileNotFoundException
+import com.google.common.io.Resources
+import java.nio.charset.StandardCharsets.UTF_8
 
 object TestUtils {
+
     fun readFile(filename: String): String {
-        val inputStream = TestUtils::class.java.classLoader.getResourceAsStream(filename) ?: throw FileNotFoundException("$filename not found")
-        return inputStream.bufferedReader().use { it.readText() }
+        val resource = Resources.getResource(filename)
+        return Resources.toString(resource, UTF_8)
     }
+
 }
 
