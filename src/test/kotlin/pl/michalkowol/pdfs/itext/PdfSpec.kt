@@ -1,4 +1,4 @@
-package pl.michalkowol
+package pl.michalkowol.pdfs.itext
 
 import com.itextpdf.kernel.geom.PageSize
 import com.itextpdf.kernel.geom.Rectangle
@@ -15,7 +15,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import pl.michalkowol.jira.web.Story
-import pl.michalkowol.pdfs.itext.ITextPdfConverter
 import java.io.File
 
 class ItextSpec {

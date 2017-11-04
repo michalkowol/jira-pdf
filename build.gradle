@@ -75,6 +75,8 @@ dependencies {
     compile "com.itextpdf:barcodes:$itext"
     compile "com.itextpdf:itext7-core:$itext"
 
+    compile 'org.apache.xmlgraphics:fop:2.2'
+
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxcoroutines"
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$kotlinxcoroutines"
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-nio:$kotlinxcoroutines"

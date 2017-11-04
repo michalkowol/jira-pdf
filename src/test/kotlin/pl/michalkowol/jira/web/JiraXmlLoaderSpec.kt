@@ -1,4 +1,4 @@
-package pl.michalkowol
+package pl.michalkowol.jira.web
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.containsSubstring
