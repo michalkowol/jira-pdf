@@ -14,6 +14,8 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import pl.michalkowol.jira.web.Story
+import pl.michalkowol.pdfs.PdfConverter
 import java.io.File
 
 class ItextSpec {

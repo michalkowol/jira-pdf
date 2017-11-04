@@ -42,20 +42,20 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <form onsubmit="return false;">
+        <form id="jiraForm" onsubmit="return false;">
           <div class="form-group">
             <label for="username">Username:</label>
-            <input class="form-control" id="username">
+            <input name="username" class="form-control" id="username">
           </div>
           <div class="form-group">
             <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd">
+            <input name="password" type="password" class="form-control" id="pwd">
           </div>
           <div class="form-group">
-            <label for="url">JIRA url:</label>
-            <input type="url" class="form-control" id="url">
+            <label for="jql">JQL (in example: "project = ASM AND Sprint = 7076 AND type != Sub-task"):</label>
+            <input name="jql" class="form-control" id="jql">
           </div>
-          <button class="btn cl3-btn btn-primary" onclick="convertWithLink()">Submit</button>
+          <button class="btn cl3-btn btn-primary" onclick="convertWithLink()"><span id="form-convert-animation" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="display: none"></span> <span id="form-convert-text">Download</span></button>
         </form>
       </div>
     </div>
@@ -75,8 +75,8 @@
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.23.0/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.23.0/mode/xml/xml.min.js"></script>
   <script>
@@ -91,28 +91,47 @@
     jiraInput.setSize("100%", 300);
 
     function convertWithLink() {
-      console.log('aaaa')
+      var $animation = $('#form-convert-animation');
+      var $btnText = $('#form-convert-text');
+      $animation.show();
+      $btnText.text('Downloading...');
+
+      var input = $('#jiraForm').serialize();
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/web', true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.responseType = 'arraybuffer';
+      xhr.onload = function () {
+        console.log('onload');
+        var data = xhr.response;
+        saveData(data, 'jira.pdf');
+      };
+      xhr.onreadystatechange = function () {
+        $animation.hide();
+        $btnText.text('Download');
+      };
+      xhr.send(input);
     }
 
     function convert() {
       var $animation = $('#convert-animation');
       var $btnText = $('#convert-text');
       $animation.show();
-      $btnText.text('Loading...');
-      var input = jiraInput.getValue();
+      $btnText.text('Converting...');
 
-      var oReq = new XMLHttpRequest();
-      oReq.open('POST', '/pdf', true);
-      oReq.responseType = 'arraybuffer';
-      oReq.onload = function(oEvent) {
-        var data = oReq.response;
+      var input = jiraInput.getValue();
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/xml', true);
+      xhr.responseType = 'arraybuffer';
+      xhr.onload = function () {
+        var data = xhr.response;
         saveData(data, 'jira.pdf');
       };
-      oReq.onreadystatechange = function () {
+      xhr.onreadystatechange = function () {
         $animation.hide();
         $btnText.text('Convert');
       };
-      oReq.send(input);
+      xhr.send(input);
     }
 
     var saveData = (function () {

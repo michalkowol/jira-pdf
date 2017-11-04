@@ -8,8 +8,9 @@ import com.natpryce.hamkrest.isEmpty
 import com.softwareberg.XmlMapper
 import org.junit.Test
 import pl.michalkowol.TestUtils.readFile
+import pl.michalkowol.jira.xml.JiraXmlLoader
 
-class XmlJiraLoaderSpec {
+class JiraXmlLoaderSpec {
 
     @Test
     fun `it should read one minmal story from xml`() {
@@ -41,7 +42,7 @@ class XmlJiraLoaderSpec {
     </channel>
 </rss>"""
         val xmlMapper = XmlMapper.create()
-        val xmlJiraLoader = XmlJiraLoader(xmlMapper)
+        val xmlJiraLoader = JiraXmlLoader(xmlMapper)
 
         // when
         val story = xmlJiraLoader.loadStories(xml)[0]
@@ -64,7 +65,7 @@ class XmlJiraLoaderSpec {
         // project = WTAI and key in (WTAI-1052, WTAI-440, WTAI-552, WTAI-992)
         val xml = readFile("jira/samples/xml/stories.xml")
         val xmlMapper = XmlMapper.create()
-        val xmlJiraLoader = XmlJiraLoader(xmlMapper)
+        val xmlJiraLoader = JiraXmlLoader(xmlMapper)
 
         // when
         val stories = xmlJiraLoader.loadStories(xml)

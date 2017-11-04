@@ -1,4 +1,4 @@
-package pl.michalkowol
+package pl.michalkowol.pdfs
 
 import com.itextpdf.kernel.geom.PageSize
 import com.itextpdf.kernel.pdf.PdfDocument
@@ -11,6 +11,7 @@ import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.element.Text
 import com.itextpdf.layout.property.UnitValue
 import com.itextpdf.layout.property.VerticalAlignment
+import pl.michalkowol.jira.web.Story
 import java.io.ByteArrayOutputStream
 
 class PdfConverter {

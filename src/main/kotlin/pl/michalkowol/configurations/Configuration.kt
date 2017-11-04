@@ -1,4 +1,4 @@
-package pl.michalkowol
+package pl.michalkowol.configurations
 
 import com.google.inject.Guice
 import com.google.inject.Injector

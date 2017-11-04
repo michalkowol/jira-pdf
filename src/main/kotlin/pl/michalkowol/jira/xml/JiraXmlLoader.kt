@@ -1,4 +1,4 @@
-package pl.michalkowol
+package pl.michalkowol.jira.xml
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -6,12 +6,10 @@ import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import com.softwareberg.XmlMapper
+import pl.michalkowol.jira.JiraLoader
+import pl.michalkowol.jira.web.Story
 
-interface JiraLoader {
-    fun loadStories(input: String): List<Story>
-}
-
-class XmlJiraLoader(private val xmlMapper: XmlMapper) : JiraLoader {
+class JiraXmlLoader(private val xmlMapper: XmlMapper) : JiraLoader {
 
     @JacksonXmlRootElement(localName = "rss")
     private class Rss {

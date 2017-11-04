@@ -60,6 +60,7 @@ dependencies {
     compile "com.github.softwareberg.rinca:database:$rinca"
     compile "com.github.softwareberg.rinca:httpclient:$rinca"
     compile "com.github.softwareberg.rinca:xml:$rinca"
+    compile "com.github.softwareberg.rinca:json:$rinca"
 
     compile "com.itextpdf:sign:$itext"
     compile "com.itextpdf:root:$itext"
