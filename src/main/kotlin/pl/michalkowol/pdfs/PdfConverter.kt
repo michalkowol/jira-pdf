@@ -1,6 +1,6 @@
 package pl.michalkowol.pdfs
 
-import pl.michalkowol.jira.web.Story
+import pl.michalkowol.jira.Story
 
 interface PdfConverter {
 

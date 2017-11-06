@@ -11,7 +11,7 @@ import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.element.Text
 import com.itextpdf.layout.property.UnitValue
 import com.itextpdf.layout.property.VerticalAlignment
-import pl.michalkowol.jira.web.Story
+import pl.michalkowol.jira.Story
 import pl.michalkowol.pdfs.PdfConverter
 import java.io.ByteArrayOutputStream
 

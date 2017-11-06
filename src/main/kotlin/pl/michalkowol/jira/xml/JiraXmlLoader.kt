@@ -7,7 +7,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import com.softwareberg.XmlMapper
 import pl.michalkowol.jira.JiraLoader
-import pl.michalkowol.jira.web.Story
+import pl.michalkowol.jira.Story
 
 class JiraXmlLoader(private val xmlMapper: XmlMapper) : JiraLoader {
 

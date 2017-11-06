@@ -13,7 +13,7 @@ import pl.michalkowol.jira.web.JiraWebController
 import pl.michalkowol.jira.xml.JiraXmlController
 import pl.michalkowol.jira.xml.JiraXmlLoader
 import pl.michalkowol.pdfs.PdfConverter
-import pl.michalkowol.pdfs.itext.ITextPdfConverter
+import pl.michalkowol.pdfs.fop.FopPdfConverter
 import pl.michalkowol.web.HttpServer
 import pl.michalkowol.web.StaticFilesController
 import pl.michalkowol.web.errors.ErrorsController
@@ -62,8 +62,8 @@ class Modules : AbstractModule() {
 
     @Singleton
     @Provides
-    private fun providePdfConverter(): PdfConverter {
-        return ITextPdfConverter()
+    private fun providePdfConverter(xmlMapper: XmlMapper): PdfConverter {
+        return FopPdfConverter(xmlMapper)
     }
 
     @Singleton
