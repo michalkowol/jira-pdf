@@ -4,9 +4,7 @@ import pl.michalkowol.configurations.Configuration
 import pl.michalkowol.web.HttpServer
 
 fun main(args: Array<String>) {
-
     Boot().start()
-
 }
 
 class Boot {
